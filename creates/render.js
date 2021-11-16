@@ -41,17 +41,16 @@ module.exports = {
   noun: 'Render',
 
   display: {
-    label: 'Render video',
-    description: 'Triggers on a new issue.'
+    label: 'Render Video',
+    description: 'Creates a new video.'
   },
 
   operation: {
     inputFields: [
       {
-        key: 'templateId', 
-        label:'Template ID', 
-        required: true, 
-        dynamic: 'templateId.full_name.full_name'
+        key: 'templateId',
+        required: true,
+        label:'Template ID'
       }
     ],
     perform: triggerRender,
