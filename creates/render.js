@@ -1,5 +1,8 @@
 const { v1 } = require("uuid");
 
+// const RENDERURI = `https://microservice.motionbox.io/api/motionbox-render`
+const RENDERURI = `https://microservice-staging.vercel.app//api/motionbox-render`
+
 const triggerRender = (z, bundle) => {
   // TODO: Handle async websockets
   // - generate callback url
@@ -8,8 +11,7 @@ const triggerRender = (z, bundle) => {
 
   const responsePromise = z.request({
     method: 'POST',
-    // url: `https://microservice.motionbox.io/api/motionbox-render`,
-    url: `http://localhost:3002/api/motionbox-render`,
+    url: RENDERURI,
     headers: {
       "Content-Type": "application/json",
     },
