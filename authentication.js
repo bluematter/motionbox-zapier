@@ -1,11 +1,29 @@
 'use strict';
 
 const authentication = {
-  type: 'basic',
+  type: 'custom',
   test: {
-    url: 'https://api.github.com/user'
+    url:
+      'https://microservice.motionbox.io/api/me',
   },
-  connectionLabel: '{{bundle.authData.username}}'
+  fields: [
+    {
+      key: 'token',
+      label: "API Key",
+      type: 'string',
+      required: true,
+      helpText: 'Found on your settings page.',
+    },
+  ],
 };
 
-module.exports = authentication;
+const addApiKeyToHeader = (request, z, bundle) => {
+  request.headers.Authorization = `Bearer ${bundle.authData.token}`;
+
+  return request;
+};
+
+module.exports = {
+  authentication, 
+  addApiKeyToHeader
+};

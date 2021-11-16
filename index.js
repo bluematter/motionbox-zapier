@@ -1,5 +1,5 @@
 const renderCreate = require('./creates/render');
-const authentication = require('./authentication');
+const { authentication, addApiKeyToHeader } = require('./authentication');
 
 const handleHTTPError = (response, z) => {
   if (response.status >= 400) {
@@ -17,6 +17,7 @@ const App = {
 
   // beforeRequest & afterResponse are optional hooks into the provided HTTP client
   beforeRequest: [
+    addApiKeyToHeader
   ],
 
   afterResponse: [
