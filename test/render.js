@@ -20,12 +20,30 @@ describe('render create', () => {
         token: process.env.TOKEN
       },
       inputData: {
-        templateId
+        templateId,
+        "key_0": "Testing Zapier Works"
       }
     };
     appTester(App.creates.render.operation.perform, bundle)
       .then((response) => {
         response.should.be.an.instanceOf(Object);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('should pull fields from a video', (done) => {
+    const bundle = {
+      authData: {
+        token: process.env.TOKEN
+      },
+      inputData: {
+        templateId
+      }
+    };
+    appTester(App.creates.render.operation.inputFields, bundle)
+      .then((response) => {
+        response.should.be.an.instanceOf(Array);
         done();
       })
       .catch(done);

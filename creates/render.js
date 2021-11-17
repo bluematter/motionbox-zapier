@@ -1,15 +1,13 @@
 const { v1 } = require("uuid");
 
-// const RENDERURI = `https://microservice.motionbox.io/api/motionbox-render`
-const RENDERURI = `https://microservice-staging.vercel.app//api/motionbox-render`
+const RENDERURI = `https://microservice.motionbox.io/api/motionbox-render`
+const FIELDSURI = 'https://microservice.motionbox.io/api/fields'
 
-const triggerRender = (z, bundle) => {
-  // TODO: Handle async websockets
-  // - generate callback url
-  // - call motionbox render microservice API
-  // - pass webhook function to lambda as an optional param
+const triggerRender = async (z, bundle) => {
+  // TODO: Read bundle for field data
+  // - see if its possible to select/create types
 
-  const responsePromise = z.request({
+  const { json } = await z.request({
     method: 'POST',
     url: RENDERURI,
     headers: {
@@ -18,7 +16,7 @@ const triggerRender = (z, bundle) => {
     body: {
       data: {
         ["7eb6b9a0-db6b-11eb-867a-6d651b8f4eae"]: {
-          text: "Testing from Zapier",
+          text: bundle.inputData["key_0"],
         },
         ["32614b00-db6c-11eb-867a-6d651b8f4eae"]: {
           text: `@michaelaubry`,
@@ -32,10 +30,23 @@ const triggerRender = (z, bundle) => {
   });
 
 
-  return responsePromise
-    .then(response => {
-      return response.json
-    });
+  return json
+};
+
+const videoObjects = async (z, bundle) => {
+  const { json } = await z.request({
+    method: 'POST',
+    url: FIELDSURI,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${bundle.authData.token}`
+    },
+    body: {
+      templateId: bundle.inputData.templateId
+    }
+  });
+
+  return json
 };
 
 module.exports = {
@@ -53,7 +64,8 @@ module.exports = {
         key: 'templateId',
         required: true,
         label:'Template ID'
-      }
+      },
+      videoObjects
     ],
     perform: triggerRender,
     performResume: async (z, bundle) => {
