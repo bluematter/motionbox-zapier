@@ -21,7 +21,8 @@ describe('render create', () => {
       },
       inputData: {
         templateId,
-        "key_0": "Testing Zapier Works"
+        "a65d2d40-db6b-11eb-867a-6d651b8f4eae": "https://pbs.twimg.com/profile_images/1269345496461504512/5WnhZ0Bm_normal.jpg",
+        "7eb6b9a0-db6b-11eb-867a-6d651b8f4eae": "Testing Zapier Works"
       }
     };
     appTester(App.creates.render.operation.perform, bundle)
