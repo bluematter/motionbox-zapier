@@ -1,10 +1,10 @@
 {
-  "name": "github-example-app",
-  "version": "1.0.0",
-  "description": "An example app for the Zapier platform.",
-  "repository": "zapier/zapier-platform-app-github-example",
-  "homepage": "https://zapier.com/developer",
-  "author": "Zane Lyon <zane.lyon@zapier.com>",
+  "name": "motionbox-zapier",
+  "version": "1.0.1",
+  "description": "Motionbox Zapier.",
+  "repository": "bluematter/motionbox-zapier",
+  "homepage": "https://motionbox.io/video-api",
+  "author": "Michael Aubry <michael@motionbox.io>",
   "license": "BSD-3-Clause",
   "main": "index.js",
   "scripts": {
