@@ -6,12 +6,20 @@ const FIELDSURI = 'https://microservice.motionbox.io/api/fields'
 
 const triggerRender = async (z, bundle) => {
   try {
+    const templateId = bundle.inputDataRaw.templateId;
+
+    if (!templateId) {
+      const errMsg = `Missing templateId`;
+      z.console.log(errMsg)
+      throw new z.errors.Error(errMsg)
+    }
+
     const videoId = v1();
     const objects = await getVideoObjects(z, bundle);
     const data = Object.keys(bundle.inputData)
       .filter((key) => key !== "templateId" && key !== "editor")
       .reduce((acc, curr) => {
-        const object = objects.find(item => item.key === curr);
+        const object = objects?.find(item => item.key === curr);
 
         if (object.type === "text") {
           return {
@@ -37,7 +45,7 @@ const triggerRender = async (z, bundle) => {
             text: bundle.inputData[curr]
           }
         }
-      }, {})
+      }, {});
 
     await z.request({
       method: 'POST',
@@ -49,7 +57,7 @@ const triggerRender = async (z, bundle) => {
         data,
         token: bundle.authData.token,
         videoId,
-        templateId: bundle.inputData.templateId,
+        templateId,
         callbackUrl: z.generateCallbackUrl(),
       }
     });
@@ -81,7 +89,7 @@ const getTemplates = async (z, bundle) => {
     return {
       key: 'templateId',
       required: true,
-      choices: json.stories.reduce((acc, curr, index) => ({
+      choices: json.stories.reduce((acc, curr) => ({
         ...acc,
         [curr.id]: curr.title
       }), {}),
@@ -95,6 +103,14 @@ const getTemplates = async (z, bundle) => {
 
 const getVideoObjects = async (z, bundle) => {
   try {
+    const templateId = bundle.inputDataRaw.templateId;
+
+    if (!templateId) {
+      const errMsg = `Missing templateId`;
+      z.console.log(errMsg)
+      throw new z.errors.Error(errMsg)
+    }
+
     const { json } = await z.request({
       method: 'POST',
       url: FIELDSURI,
@@ -103,7 +119,7 @@ const getVideoObjects = async (z, bundle) => {
         "Authorization": `Bearer ${bundle.authData.token}`
       },
       body: {
-        templateId: bundle.inputData.templateId
+        templateId
       }
     });
 
