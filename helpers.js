@@ -6,12 +6,12 @@ const FIELDSURI = 'https://microservice.motionbox.io/api/fields'
 
 const triggerRender = async (z, bundle) => {
   try {
-    const templateId = bundle.inputDataRaw.templateId;
+    const templateId = bundle.inputDataRaw.templateId
 
     if (!templateId) {
       const errMsg = `Missing templateId`;
       z.console.log(errMsg)
-      throw new z.errors.Error(errMsg)
+      return;
     }
 
     const videoId = v1();
@@ -21,7 +21,7 @@ const triggerRender = async (z, bundle) => {
       .reduce((acc, curr) => {
         const object = objects?.find(item => item.key === curr);
 
-        if (object.type === "text") {
+        if (object && object.type === "text") {
           return {
             ...acc,
             [curr]: {
@@ -30,7 +30,7 @@ const triggerRender = async (z, bundle) => {
           }
         }
 
-        if (object.type === "image") {
+        if (object && object.type === "image") {
           return {
             ...acc,
             [curr]: {
@@ -103,12 +103,10 @@ const getTemplates = async (z, bundle) => {
 
 const getVideoObjects = async (z, bundle) => {
   try {
-    const templateId = bundle.inputDataRaw.templateId;
+    const templateId = bundle.inputData.templateId;
 
     if (!templateId) {
-      const errMsg = `Missing templateId`;
-      z.console.log(errMsg)
-      throw new z.errors.Error(errMsg)
+      return;
     }
 
     const { json } = await z.request({

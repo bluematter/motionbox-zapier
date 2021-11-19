@@ -28,19 +28,19 @@ describe('token authentication', () => {
       .catch(done);
   });
 
-  // it('should error', (done) => {
-  //   const bundle = {
-  //     authData: {
-  //       token: ""
-  //     }
-  //   };
+  it('should error', (done) => {
+    const bundle = {
+      authData: {
+        token: ""
+      }
+    };
 
-  //   appTester(App.authentication.test, bundle)
-  //     .then((response) => {
-  //       should.exist(response.err)
-  //       done();
-  //     })
-  //     .catch(done);
-  // });
+    appTester(App.authentication.test, bundle)
+      .then((response) => {
+        should.exist(response.err)
+        done();
+      })
+      .catch(done);
+  });
 
 });
