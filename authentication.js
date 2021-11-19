@@ -12,14 +12,13 @@ const authentication = {
       label: "API Key",
       type: 'string',
       required: true,
-      helpText: 'Found on your settings page.',
+      helpText: 'Go to the [API Details](https://motionbox.io/dashboard/settings) to find your API Key.',
     },
   ],
 };
 
 const addApiKeyToHeader = (request, z, bundle) => {
   request.headers.Authorization = `Bearer ${bundle.authData.token}`;
-
   return request;
 };
 
