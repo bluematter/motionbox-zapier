@@ -39,6 +39,20 @@ const triggerRender = async (z, bundle) => {
           }
         }
 
+        if (object && object.type === "animated_text") {
+          return {
+            ...acc,
+            [curr]: {
+              animationData: {
+                ...object.animationData,
+                animationText: {
+                  [Object.keys(object.animationData.animationText)[0]]: bundle.inputData[curr]
+                }
+              }
+            }
+          }
+        }
+
         return {
           ...acc,
           [curr]: {
